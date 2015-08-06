@@ -1,6 +1,6 @@
 # rclean.py
 # recursive clean
-# Version: 0.2
+# Version: 0.3
 # Author: Sriram V Iyer
 # 
 # 0.1 : Starts from the current directory and deletes the files with matching extensions
@@ -8,11 +8,11 @@
 # 0.3 : Cleaned up variable names and code in general. Replace filter with list comprehensions
 
 
-from os.path import *
 import getopt
-from os import sys
 import os
 import platform
+import sys
+from os.path import walk
 
 
 def del_file(file_name):
@@ -41,7 +41,7 @@ def del_file(file_name):
     os.popen2(cmd)
 
 
-def visit(extensions, dirname, names):
+def visit(extensions, dir_name, names):
     # Get only the files in the directory
     k = [x for x in names if not isdir(x)]
 
@@ -49,7 +49,7 @@ def visit(extensions, dirname, names):
     for x in k:
         ext = x.split(".")[len(x.split(".")) - 1]
         if ext != '' and ext in extensions:
-            del_file(dirname + '\\' + x)
+            del_file(dir_name + '\\' + x)
 
 
 def usage():
@@ -99,3 +99,6 @@ def main():
     walk(basedir, visit, arg)
 
     print "Done"
+
+if __name__ == '__main__':
+    main()
